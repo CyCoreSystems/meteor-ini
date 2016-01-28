@@ -9,3 +9,9 @@ var config = ini.parse(<myINIData>);
 ```
 
 This will load the INI data into the object `config`.
+
+For convenience, there is also included a file parser which wraps a file read:
+```js
+var config = ParseINIFile("/etc/meteor/myconfig.ini");
+```
+

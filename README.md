@@ -1,17 +1,39 @@
 # ini
 
-This is a simple Npm wrapper for server-side parsing of INI files.  It uses
-the [github.com/isaacs/ini](http://github.com/isaacs/ini) tool.
+This is a crude native INI file parser.  There are two exposed methods:
+- parseINIFile() which takes a filename and parses it as an INI
+- parseINI() which takes string input and parses it as INI
 
-Just call something like:
+Both methods return an object (which may be empty) representing
+the INI.  The sections are represented by the first index, keys
+by the second.  Top entries without a section are considered being
+part of the `global` section.
+
+Also, no attempt is made to parse the values into anything but their
+native strings.  The only thing done to them is to trim whitespace
+from around them.
+
+Hence:
 ```js
-var config = ini.parse(<myINIData>);
+var out = parseINI('
+   name=Charles ;; Comment!
+   [stats]
+   height=108  # I am really a comment, too=foo
+   weight=52
+');
+
 ```
 
-This will load the INI data into the object `config`.
-
-For convenience, there is also included a file parser which wraps a file read:
+Would return:
 ```js
-var config = ParseINIFile("/etc/meteor/myconfig.ini");
+out = {
+   global: {
+      name: 'Charles'
+   },
+   stats: {
+      height: '108',
+      weight: '52'
+   }
+}
 ```
 

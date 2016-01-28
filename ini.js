@@ -25,16 +25,13 @@ parseINI = function(input) {
    // Next pass: split into headered sections
    var currentSection = 'global';
    _.each(lines,function(l) {
-      console.log("Parsing line",l);
       if(m = headerRegex.exec(l)) {
-         console.log("Found Section",m[1]);
          // We are a section header
          currentSection = m[1];
          return;
       };
       // We are not a header; see if we are a key-val pair
       if ( p = parseKv(l) ) {
-         console.log("Found KV",p);
          if(!out[currentSection]) {
             out[currentSection] = {};
          }
